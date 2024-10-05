@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../services/api/user.service';
+import { Observable } from 'rxjs';
+import { UserResponseModel } from '../../shared/models/user-response-model';
+import {CommonModule, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-navigation-bar',
   standalone: true,
-  imports: [],
+  imports: [NgIf, CommonModule],
   templateUrl: './navigation-bar.component.html',
-  styleUrl: './navigation-bar.component.css'
+  styleUrl: './navigation-bar.component.css',
 })
-export class NavigationBarComponent {
+export class NavigationBarComponent implements OnInit {
+  public userResponse$!: Observable<UserResponseModel>;
+  constructor(private userService: UserService) {}
 
+  ngOnInit(): void {
+    this.userResponse$ = this.userService.getUserByEmail("andi.dev94@gmail.com");
+  }
 }
