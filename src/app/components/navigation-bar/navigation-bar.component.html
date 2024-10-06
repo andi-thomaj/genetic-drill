@@ -12,7 +12,7 @@
             <details>
               <summary>Parent</summary>
               <ul *ngIf="userResponse$ | async as user" class="bg-base-100 rounded-t-none p-2">
-                <li><a>{{user.email}}</a></li>
+                <li><a>{{user?.email}}</a></li>
                 <li><a>Link 2</a></li>
               </ul>
             </details>

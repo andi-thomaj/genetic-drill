@@ -1,40 +1,42 @@
 import { UserResponseModel } from './models/responses/user-response-model';
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import { IUserState } from './user.state';
-import { createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, on } from '@ngrx/store';
 import * as userActions from './user.actions';
 
-export const userEntityAdapter: EntityAdapter<UserResponseModel> =
-  createEntityAdapter<UserResponseModel>();
-
-const initialState = userEntityAdapter.getInitialState({
+const initialState: IUserState = {
   user: null,
-}) as IUserState;
+  isLoading: false,
+  error: '',
+};
 
-export const userReducer = createReducer<IUserState>(
-  initialState,
-  on(userActions.getUserByEmailStart, (state) => {
-    return {
-      ...state,
-      error: '',
-      loading: true,
-    };
-  }),
-  on(userActions.getUserByEmailFinished, (state, action) => {
-    return {
-      ...state,
-      user: action.result,
-      loading: false,
-      error: '',
-    };
-  }),
-  on(userActions.getUserByEmailFailed, (state, action) => {
-    return {
-      ...state,
-      error: action.error,
-      loading: false,
-    };
-  })
-);
+const userFeature = createFeature({
+  name: 'user',
+  reducer: createReducer(
+    initialState,
+    on(userActions.getUserByEmailStart, (state) => {
+      return {
+        ...state,
+        error: '',
+        isLoading: true,
+      };
+    }),
+    on(userActions.getUserByEmailFinished, (state, action) => {
+      return {
+        ...state,
+        user: action.result,
+        isLoading: false,
+        error: '',
+      };
+    }),
+    on(userActions.getUserByEmailFailed, (state, action) => {
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false,
+      };
+    })
+  ),
+});
 
-export const userSelectors = userEntityAdapter.getSelectors();
+export const { name: userFeatureKey, reducer: userReducer } = userFeature;

@@ -1,7 +1,7 @@
-import { UserResponseModel } from "./models/responses/user-response-model";
-
-export const userFeatureName = 'user';
+import { UserResponseModel } from './models/responses/user-response-model';
 
 export interface IUserState {
-    user: UserResponseModel | null;
+  user: UserResponseModel | null;
+  isLoading: boolean;
+  error: string;
 }
