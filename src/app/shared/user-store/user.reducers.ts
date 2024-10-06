@@ -21,8 +21,20 @@ export const userReducer = createReducer<IUserState>(
     };
   }),
   on(userActions.getUserByEmailFinished, (state, action) => {
-    return userEntityAdapter.setOne(action.result, {
-      
-    });
+    return {
+      ...state,
+      user: action.result,
+      loading: false,
+      error: '',
+    };
+  }),
+  on(userActions.getUserByEmailFailed, (state, action) => {
+    return {
+      ...state,
+      error: action.error,
+      loading: false,
+    };
   })
 );
+
+export const userSelectors = userEntityAdapter.getSelectors();
