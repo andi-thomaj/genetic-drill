@@ -1,8 +1,6 @@
-import { UserResponseModel } from './models/responses/user-response-model';
-import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import { IUserState } from './user.state';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import * as userActions from './user.actions';
+import { userActions } from './user.actions';
 
 const initialState: IUserState = {
   user: null,
@@ -14,14 +12,14 @@ const userFeature = createFeature({
   name: 'user',
   reducer: createReducer(
     initialState,
-    on(userActions.getUserByEmailStart, (state) => {
+    on(userActions.getUserByEmail, (state) => {
       return {
         ...state,
         error: '',
         isLoading: true,
       };
     }),
-    on(userActions.getUserByEmailFinished, (state, action) => {
+    on(userActions.getUserByEmailSuccess, (state, action) => {
       return {
         ...state,
         user: action.result,
@@ -29,10 +27,10 @@ const userFeature = createFeature({
         error: '',
       };
     }),
-    on(userActions.getUserByEmailFailed, (state, action) => {
+    on(userActions.getUserByEmailFailure, (state, action) => {
       return {
         ...state,
-        error: action.error,
+        error: '',
         isLoading: false,
       };
     })

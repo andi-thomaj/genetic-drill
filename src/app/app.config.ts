@@ -11,6 +11,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userFeatureKey, userReducer } from './shared/user-store/user.reducers';
+import * as userEffects from './shared/user-store/user.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore(),
     provideState(userFeatureKey, userReducer),
-    provideEffects(),
+    provideEffects(userEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
